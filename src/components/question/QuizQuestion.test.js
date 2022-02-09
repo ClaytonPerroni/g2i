@@ -13,7 +13,11 @@ test('renders buttons', () => {
         correct_answer: 'true',
         wrong_answers: ['false'],
       }}
-    />
+    />, {preloadedState: {
+      questions: {
+        
+      }
+    }}
   );
   const trueButton = screen.getByText(/TRUE/i);
   expect(trueButton).toBeInTheDocument();

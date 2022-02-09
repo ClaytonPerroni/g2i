@@ -1,8 +1,10 @@
+import { fetchTrueOrFalse } from '..';
 import QuestionSliceReducer, {
   incrementCurrentQuestion,
   resetQuestions,
   answerQuestion,
 } from './QuestionSlice';
+import { stubQuestions } from './stubData';
 
 test('should return the initial state', () => {
   expect(QuestionSliceReducer(undefined, {})).toEqual({
@@ -77,5 +79,25 @@ test('should handle answering a question', () => {
       },
     ],
     currentQuestion: 0,
+  });
+});
+
+describe('Extra reducers', () => {
+  it('fetch commit activity', () => {
+    const previousState = {
+      questions: [],
+      currentQuestion: 0,
+    };
+    expect(
+      QuestionSliceReducer(
+        previousState,
+        fetchTrueOrFalse.fulfilled({ results: stubQuestions }, {}, {}) // thunk sub actions
+      )
+    ).toEqual({
+      questions: stubQuestions,
+      currentQuestion: 0,
+      loading: false,
+      questionsLoaded: true,
+    });
   });
 });
